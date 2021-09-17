@@ -20,4 +20,9 @@ public class TestStringCalculator {
         assert stringCalculator.add("1")==1;
     }
 
+    @Test
+    public void shouldReturnSumOnTwoNumbers(){
+        assert stringCalculator.add("1,2")==1+2;
+    }
+
 }
