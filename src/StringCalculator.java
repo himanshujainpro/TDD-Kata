@@ -3,10 +3,16 @@ public class StringCalculator {
     int add(String numbers) {
         if (numbers.isEmpty()) return 0;
         else if (numbers.length() == 1) return Integer.parseInt(numbers);
-        else return sum(parseStringArrayToIntArray(splitString(numbers)));
+
+        else {
+            String[] splitArray = splitString(numbers);
+            int[] parsedIntegerArray = parseStringArrayToIntArray(splitArray);
+            return sum(parsedIntegerArray);
+        }
     }
 
 
+    //Converts string array to integer array
     int[] parseStringArrayToIntArray(String[] strings) {
 
         int[] numbers = new int[strings.length];
@@ -17,10 +23,12 @@ public class StringCalculator {
         return numbers;
     }
 
+
     int toInt(String number) {
         return Integer.parseInt(number);
     }
 
+    //Takes string text and split it by , which is default for now
     String[] splitString(String text) {
         return text.split(",");
     }

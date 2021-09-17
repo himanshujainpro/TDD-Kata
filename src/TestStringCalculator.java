@@ -25,4 +25,9 @@ public class TestStringCalculator {
         assert stringCalculator.add("1,2")==1+2;
     }
 
+    @Test
+    public void shouldReturnSumForMultipleNumbers(){
+        assert stringCalculator.add("1,2,2,2,3")==1+2+2+2+3;
+    }
+
 }
