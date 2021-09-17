@@ -66,6 +66,7 @@ public class StringCalculator {
         int sum = 0;
         for (int number : numbers
         ) {
+            if(number>1000) continue;
             sum += number;
         }
         return sum;

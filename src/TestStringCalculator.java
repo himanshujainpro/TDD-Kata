@@ -52,4 +52,9 @@ public class TestStringCalculator {
         }
     }
 
+    @Test
+    public void shouldIgnoreNumberBiggerThanOneThousand(){
+        assert stringCalculator.add("1,1000,1001,2")==1+1000+2;
+    }
+
 }
