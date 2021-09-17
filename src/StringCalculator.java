@@ -4,29 +4,60 @@ import java.util.List;
 public class StringCalculator {
 
     int add(String numbers) {
-        String delimiter;
         if (numbers.isEmpty()) return 0;
         else if (numbers.length() == 1) return Integer.parseInt(numbers);
-
         else {
-            String[] splitArray;
-            String textToSplit = numbers;
+            //Getting integer array from unprocessed text
+            int[] parsedIntegerArray = parseStringArrayToIntArray(parseString(numbers));
 
-            if (numbers.contains("\n") && !numbers.startsWith("//")) {
-                delimiter = "[,\n]";
-                splitArray = splitStringByDelimiter(textToSplit, delimiter);
-            } else if (numbers.startsWith("//")) {
-                delimiter = numbers.substring(numbers.indexOf("//") + 2, numbers.indexOf("\n"));
-                textToSplit = numbers.substring(numbers.indexOf("\n") + 1);
-                splitArray = splitStringByDelimiter(textToSplit, delimiter);
-            } else {
-                splitArray = splitStringByDelimiter(textToSplit, ",");
-            }
-
-            int[] parsedIntegerArray = parseStringArrayToIntArray(splitArray);
+            // Checking negatives
             checkNegativeAndThrowsException(parsedIntegerArray);
+
+            //Final
             return sum(parsedIntegerArray);
         }
+    }
+
+    String[] parseString(String numbers) {
+        String delimiter;
+        String[] splitArray;
+        String textToSplit = numbers;
+
+
+        //Case 1: Supporting new line.
+        if (numbers.contains("\n") && !numbers.startsWith("//") && !numbers.contains("[")) {
+            delimiter = "[,\n]";
+            splitArray = splitStringByDelimiter(textToSplit, delimiter);
+        }
+
+        //Case 2: Contains default different delimiters like ";" , ":" etc.
+        else if (numbers.startsWith("//") && !numbers.contains("[")) {
+            delimiter = numbers.substring(numbers.indexOf("//") + 2, numbers.indexOf("\n"));
+            textToSplit = numbers.substring(numbers.indexOf("\n") + 1);
+            splitArray = splitStringByDelimiter(textToSplit, delimiter);
+        }
+
+        //Case 2: Contains default different delimiters like ";" , ":" etc. of multiple length
+        else if (numbers.startsWith("//") && numbers.contains("[")) {
+            delimiter = numbers.substring(numbers.indexOf("//") + 3, numbers.indexOf("\n") - 1);
+            delimiter = escapeReservedOperatorsByBackSlashes(delimiter);
+            textToSplit = numbers.substring(numbers.indexOf("\n") + 1);
+            splitArray = splitStringByDelimiter(textToSplit, delimiter);
+        }
+        //Case 4: Contains default delimiter ","
+        else {
+            splitArray = splitStringByDelimiter(textToSplit, ",");
+        }
+
+        return splitArray;
+    }
+
+    String escapeReservedOperatorsByBackSlashes(String delimiter) {
+        StringBuilder stringBuilder=new StringBuilder();
+        for (int i = 0; i < delimiter.length(); i++) {
+            stringBuilder.append("\\").append(delimiter.charAt(i));
+        }
+        return stringBuilder.toString();
     }
 
     void checkNegativeAndThrowsException(int[] numbers) {
@@ -66,13 +97,10 @@ public class StringCalculator {
         int sum = 0;
         for (int number : numbers
         ) {
-            if(number>1000) continue;
+            if (number > 1000) continue;
             sum += number;
         }
         return sum;
     }
 
-    public static void main(String[] args) {
-        System.out.println("//;\n1;2".indexOf("\n"));
-    }
 }

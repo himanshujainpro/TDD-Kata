@@ -1,7 +1,6 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 
 public class TestStringCalculator {
 
@@ -55,6 +54,11 @@ public class TestStringCalculator {
     @Test
     public void shouldIgnoreNumberBiggerThanOneThousand(){
         assert stringCalculator.add("1,1000,1001,2")==1+1000+2;
+    }
+
+    @Test
+    public void shouldHandleMultipleLengthOfDelimiters(){
+        assert stringCalculator.add("//[+++]\n1+++2+++3")==1+2+3;
     }
 
 }
