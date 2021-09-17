@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringCalculator {
 
     int add(String numbers) {
@@ -11,20 +14,30 @@ public class StringCalculator {
 
             if (numbers.contains("\n") && !numbers.startsWith("//")) {
                 delimiter = "[,\n]";
-                splitArray = splitString(textToSplit, delimiter);
+                splitArray = splitStringByDelimiter(textToSplit, delimiter);
             } else if (numbers.startsWith("//")) {
                 delimiter = numbers.substring(numbers.indexOf("//") + 2, numbers.indexOf("\n"));
                 textToSplit = numbers.substring(numbers.indexOf("\n") + 1);
-                splitArray = splitString(textToSplit, delimiter);
+                splitArray = splitStringByDelimiter(textToSplit, delimiter);
             } else {
-                splitArray = splitString(textToSplit);
+                splitArray = splitStringByDelimiter(textToSplit, ",");
             }
 
             int[] parsedIntegerArray = parseStringArrayToIntArray(splitArray);
+            checkNegativeAndThrowsException(parsedIntegerArray);
             return sum(parsedIntegerArray);
         }
     }
 
+    void checkNegativeAndThrowsException(int[] numbers) {
+        List<Integer> listOfNegativeNumbers = new ArrayList<>();
+        for (int number : numbers
+        ) {
+            if (number < 0) listOfNegativeNumbers.add(number);
+        }
+        if (listOfNegativeNumbers.size() > 0)
+            throw new RuntimeException("Negatives are not allowed: " + listOfNegativeNumbers);
+    }
 
     //Converts string array to integer array
     int[] parseStringArrayToIntArray(String[] strings) {
@@ -42,13 +55,9 @@ public class StringCalculator {
         return Integer.parseInt(number);
     }
 
-    //Takes string text and split it by , which is default for now
-    String[] splitString(String text) {
-        return text.split(",");
-    }
 
     //Takes string text and split it by particular delimiter
-    String[] splitString(String text, String delimiter) {
+    String[] splitStringByDelimiter(String text, String delimiter) {
         return text.split(delimiter);
     }
 

@@ -1,5 +1,7 @@
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 
 public class TestStringCalculator {
 
@@ -38,6 +40,16 @@ public class TestStringCalculator {
     @Test
     public void shouldSupportMultipleDelimiters(){
         assert stringCalculator.add("//;\n1;2")==1+2;
+    }
+
+    @Test
+    public void shouldThrowExceptionOnNegativeNumbers(){
+        try {
+            stringCalculator.add("1,-2,3,-4");
+            Assert.fail("Exception expected");
+        }catch (RuntimeException runtimeException){
+            Assert.assertEquals("Negatives are not allowed: [-2, -4]",runtimeException.getMessage());
+        }
     }
 
 }
