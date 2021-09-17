@@ -15,4 +15,9 @@ public class TestStringCalculator {
         assert stringCalculator.add("")==0;
     }
 
+    @Test
+    public void shouldReturnNumberOnNumber(){
+        assert stringCalculator.add("1")==1;
+    }
+
 }
