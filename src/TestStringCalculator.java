@@ -35,4 +35,9 @@ public class TestStringCalculator {
         assert stringCalculator.add("1\n2,3")==1+2+3;
     }
 
+    @Test
+    public void shouldSupportMultipleDelimiters(){
+        assert stringCalculator.add("//;\n1;2")==1+2;
+    }
+
 }

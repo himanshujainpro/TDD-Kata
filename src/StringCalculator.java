@@ -7,12 +7,17 @@ public class StringCalculator {
 
         else {
             String[] splitArray;
+            String textToSplit = numbers;
 
-            if(numbers.contains("\n")){
-                delimiter="[,\n]";
-                splitArray=splitString(numbers,delimiter);
-            }else{
-                splitArray = splitString(numbers);
+            if (numbers.contains("\n") && !numbers.startsWith("//")) {
+                delimiter = "[,\n]";
+                splitArray = splitString(textToSplit, delimiter);
+            } else if (numbers.startsWith("//")) {
+                delimiter = numbers.substring(numbers.indexOf("//") + 2, numbers.indexOf("\n"));
+                textToSplit = numbers.substring(numbers.indexOf("\n") + 1);
+                splitArray = splitString(textToSplit, delimiter);
+            } else {
+                splitArray = splitString(textToSplit);
             }
 
             int[] parsedIntegerArray = parseStringArrayToIntArray(splitArray);
@@ -43,7 +48,7 @@ public class StringCalculator {
     }
 
     //Takes string text and split it by particular delimiter
-    String[] splitString(String text,String delimiter){
+    String[] splitString(String text, String delimiter) {
         return text.split(delimiter);
     }
 
@@ -55,5 +60,9 @@ public class StringCalculator {
             sum += number;
         }
         return sum;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("//;\n1;2".indexOf("\n"));
     }
 }
