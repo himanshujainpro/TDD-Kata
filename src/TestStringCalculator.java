@@ -30,4 +30,9 @@ public class TestStringCalculator {
         assert stringCalculator.add("1,2,2,2,3")==1+2+2+2+3;
     }
 
+    @Test
+    public void shouldHandleNewLines(){
+        assert stringCalculator.add("1\n2,3")==1+2+3;
+    }
+
 }
